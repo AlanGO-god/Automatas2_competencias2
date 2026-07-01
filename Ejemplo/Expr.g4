@@ -6,4 +6,4 @@ IF: 'if';
 ID: [a-zA-Z]+;
 MAYOR_QUE: '>';
 NUM: [0-9]+;
-WS: [\t\r\n]+ -> skip;
+WS: [ \t\r\n]+ -> skip;
