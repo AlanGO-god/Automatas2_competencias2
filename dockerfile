@@ -6,7 +6,7 @@ WORKDIR /workspace
 # Versión de ANTLR
 ENV ANTLR_VERSION=4.13.2
 
-# Instalar dependencias
+# Instalar dependencias del sistema
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         default-jdk \
@@ -24,17 +24,20 @@ RUN curl -L https://www.antlr.org/download/antlr-${ANTLR_VERSION}-complete.jar \
 # Crear entorno virtual
 RUN python -m venv /opt/venv
 
-# Instalar runtime de Python
-RUN /opt/venv/bin/pip install --no-cache-dir --upgrade pip && \
-    /opt/venv/bin/pip install --no-cache-dir antlr4-python3-runtime
-
 # Agregar el venv al PATH
 ENV PATH="/opt/venv/bin:${PATH}"
 
 # Variables para Java
 ENV CLASSPATH=".:/usr/local/lib/antlr.jar"
 
-# Comando antlr4
+# Copiar archivo de dependencias
+COPY requirements.txt .
+
+# Actualizar pip e instalar dependencias
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Crear comando antlr4
 RUN printf '#!/bin/sh\nexec java -jar /usr/local/lib/antlr.jar "$@"\n' \
     > /usr/local/bin/antlr4 && \
     chmod +x /usr/local/bin/antlr4
