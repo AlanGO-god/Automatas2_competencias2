@@ -1,1 +1,0 @@
-print ("Wenn ich das als Erste verstehe,ubersetze und dem Lehrer vorlese, verdieneich 10 Extrapunkte,zusatzlich zur Abgabemeiner Regeln und meiner Token-Tabelle.");
